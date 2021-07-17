@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/reidj5/Webapp-MEVN-Todo#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "body-parser": "^1.19.0",
     "bulma": "^0.9.3",
     "concurrently": "^6.2.0",

@@ -52,16 +52,11 @@
                 isSelected(item) ? "save" : "delete"
               }}</i>
             </span>
-
-             <span
-              class="icon has-text-info"
-              @click="completeItem(item, i)
-              "
-            >
-              <i class="material-icons">{{
-                isSelected(item) ? "save" : "delete"
-              }}</i>
+            <span class="icon" @click="completeItem(item, i)"
+              >
+              <i class="fas fa-check-double"></i>
             </span>
+   
           </div>
         </div>
       </div>
@@ -77,6 +72,7 @@ export default {
     return {
       items: [],
       description: "",
+      completed: true,
       editedDescription: "",
       selected: {},
     };
@@ -89,6 +85,7 @@ export default {
     async addItem() {
       const response = await axios.post("api/bucketListItems/", {
         description: this.description,
+        completed: false,
       });
       this.items.push(response.data);
       this.description = "";
@@ -116,8 +113,8 @@ export default {
       this.unselect();
     },
     async completeItem(item, i) {
-      const response = await axios.put("api/bucketListItems" + item._id, {
-        completed: !this.completed,
+      const response = await axios.put("api/bucketListItems/" + item._id, {
+        completed: true,
       });
       this.item[i] = response.data;
       this.unselect();
