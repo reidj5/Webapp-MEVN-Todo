@@ -52,6 +52,16 @@
                 isSelected(item) ? "save" : "delete"
               }}</i>
             </span>
+
+             <span
+              class="icon has-text-info"
+              @click="completeItem(item, i)
+              "
+            >
+              <i class="material-icons">{{
+                isSelected(item) ? "save" : "delete"
+              }}</i>
+            </span>
           </div>
         </div>
       </div>
@@ -105,6 +115,13 @@ export default {
       this.items[i] = response.data;
       this.unselect();
     },
+    async completeItem(item, i) {
+      const response = await axios.put("api/bucketListItems" + item._id, {
+        completed: !this.completed,
+      });
+      this.item[i] = response.data;
+      this.unselect();
+    }
   },
 };
 </script>
