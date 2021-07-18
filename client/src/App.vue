@@ -16,9 +16,14 @@
           />
         </div>
         <div class="control">
-          <button class="button is-info" id="btn" @click="addItem" :disabled="!description" 
-            >Add</button
+          <button
+            class="button is-info"
+            id="btn"
+            @click="addItem"
+            :disabled="!description"
           >
+            Add
+          </button>
         </div>
       </div>
       <div class="notification" v-for="(item, i) in items" :key="item._id">
@@ -51,12 +56,21 @@
               <i class="material-icons">{{
                 isSelected(item) ? "save" : "delete"
               }}</i>
+              
             </span>
-            <span class="icon" @click="completeItem(item, i)"
-              >
-              <i class="fas fa-check-double"></i>
+            
+            <span
+              class="icon has-text-success"
+              @click="
+                isSelected(item) ? updateItem(item, i)  : completeItem(item, i)
+              "
+            >
+              <i class="fas fa-check-square">{{
+                isSelected(item) ? "save" : "Mark done"
+              }}</i>
+              
             </span>
-   
+
           </div>
         </div>
       </div>
@@ -116,9 +130,9 @@ export default {
       const response = await axios.put("api/bucketListItems/" + item._id, {
         completed: true,
       });
-      this.item[i] = response.data;
+      this.items[i] = response.data;
       this.unselect();
-    }
+    },
   },
 };
 </script>
