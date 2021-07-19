@@ -60,17 +60,13 @@
             </span>
             
             <span
-              class="icon has-text-success"
-              @click="
-                isSelected(item) ? updateItem(item, i)  : completeItem(item, i)
-              "
-            >
-              <i class="fas fa-check-square">{{
-                isSelected(item) ? "save" : "Mark done"
-              }}</i>
+            class="icon has-text-success"
+             @click="completeItem(item, i)"
+            ><i  class="material-icons">
+              {{isComplete(item) ? "radio_button_unchecked" : "radio_button_checked"}}
+              </i>
               
             </span>
-
           </div>
         </div>
       </div>
@@ -112,6 +108,7 @@ export default {
     select(item) {
       this.selected = item;
       this.editedDescription = item.description;
+      this.complete = item.complete;
     },
     isSelected(item) {
       return item._id === this.selected._id;
@@ -127,11 +124,17 @@ export default {
       this.items[i] = response.data;
       this.unselect();
     },
+    isComplete(item) {
+      console.log('Returning ' + item.complete + this.complete)
+      return item.complete
+    },
     async completeItem(item, i) {
-      const response = await axios.put("api/bucketListItems/" + item._id, {
-        completed: true,
-      });
-      this.items[i] = response.data;
+      const response = await axios.put("api/bucketListItems/" + item._id);
+      response.data.completed = !response.data.completed
+      const response1 = await axios.put("api/bucketListItems/" + item._id, {
+       completed: response.data.completed
+     });
+      this.items[i] = response1.data
       this.unselect();
     },
   },
